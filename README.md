@@ -7,12 +7,12 @@ tvBOT showed significant advantages in tree annotation compared with other tools
 
 <p><div style="display:flex;justify-content: center;"><img src="https://1996xjm.github.io/tvbot/img/workflow.jpg" alt="canvasSetting-1" style="width:75%;" /></div></p>
 
-1. Import a tree file in various formats.
-2. Adjust the tree structure and basic styles.
-3. Organize annotation data in one or multiple tables and upload.
-4. Add annotation dataset layers using corresponding data columns.
-5. Execute style adjustments for each annotation dataset layer.
-6. Export figure and save drawing state.
+- **(1)** Import a tree file in various formats.
+- **(2)** Adjust the tree structure and basic styles.
+- **(3)** Organize annotation data in one or multiple tables and upload.
+- **(4)** Add annotation dataset layers using corresponding data columns.
+- **(5)** Execute style adjustments for each annotation dataset layer.
+- **(6)** Export figure and save drawing state.
 
 
 #### Example file for annotation dataset layer:

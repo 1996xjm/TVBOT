@@ -5,7 +5,7 @@ tvBOT showed significant advantages in tree annotation compared with other tools
 
 #### Example file for annotation dataset layer:
 
-<p><div style="display:flex;"><img src="https://1996xjm.github.io/chitree/tree_annotation/img/exampleDatasetLayerFile.jpg" alt="canvasSetting-1" style="width:100%;" /></div></p>
+<p><div style="display:flex;"><img src="https://1996xjm.github.io/tvbot/tree_annotation/img/exampleDatasetLayerFile.jpg" alt="canvasSetting-1" style="width:100%;" /></div></p>
 
 - **(1)** The first column of each dataset layer data file must be node IDs which are identical with [tree file](https://1996xjm.github.io/chitree/user_interface/attribute_main/data.html).
 
@@ -21,7 +21,7 @@ tvBOT showed significant advantages in tree annotation compared with other tools
 
 #### Corresponding figure: [View Tree](https://www.chiplot.online/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig4c-s41467-022-31113-w.json)
 
-<p><div style="display:flex;"><img src="https://1996xjm.github.io/chitree/tree_annotation/img/exampleTreeFigure.jpg" alt="canvasSetting-1" style="width:100%;" /></div></p>
+<p><div style="display:flex;"><img src="https://1996xjm.github.io/tvbot/tree_annotation/img/exampleTreeFigure.jpg" alt="canvasSetting-1" style="width:100%;" /></div></p>
 
 - Color blocks are added to label different Phylum.
 - Two columns of symbols are added to distinguish different OTUs type.

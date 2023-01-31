@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tree Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/static/xiaochiPlot/chiplot_favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/vue.global.js"></script>
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/d3.v6.min.js"></script>
+    <link href="https://1996xjm.github.io/chiplot/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://1996xjm.github.io/chiplot/css/overview.css">
+    <script src="https://1996xjm.github.io/chiplot/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/icon.css">
+</head>
+<style>
+    :root {
+        --bs-xiaochigreen: #42b983;
+        --bs-xiaochiorange: #fc8d62;
+
+    }
+    .bg-xiaochigreen{
+        background-color: var(--bs-xiaochigreen);
+
+    }
+    #logo {
+        display: inline-block;
+        font-size: 1.5em;
+        line-height: 0px;
+        height: 45px;
+        color: #273849;
+        font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+    }
+
+
+    header{
+
+        width: 100%;
+        /*position: absolute;*/
+        z-index: 8;
+        /*background-color: var(--bs-xiaochigreen);*/
+
+
+    }
+    .btn-xiaochi{
+        color: #fff;
+        background-color: var(--bs-xiaochigreen);
+        box-shadow:0 2px 6px 0 rgba(102,195,165,.5);
+    }
+
+    .figure-cover:hover{
+        transform: scale(1.2);
+        transition: all 0.5s ease 0s;
+    }
+    .figure-cover{
+        transition: all 0.5s ease 0s;
+        cursor: pointer;
+    }
+    #update-info-link:before{
+        position: absolute;
+        content: "1";
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        color: white;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 100%;
+        margin-left: 70px;
+    }
+    #left-chart-nav .chart-icon{
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+
+    #left-chart-nav .chart-icon svg{
+        width: 100% !important;
+        height: 100% !important;
+
+    }
+    .nav-item-box:hover{
+        border-right: solid 4px #cccccc;
+    }
+    .selected-nav-item{
+        background-color: #cccccc;
+    }
+    .carousel-item-index{
+        height: 450px;
+        background-color: white;
+    }
+    .carousel-caption{
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 20px;
+    }
+
+
+</style>
+
+<body>
+<header class="p-3 mb-3">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/tvbot.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+<!--                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
+                <span class="text-black" style="font-weight: bold;color: white;">TVBOT</span>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/myTrees.html" class="nav-link px-2 link-secondary text-black">My trees</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Help
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+
+                            <a class="dropdown-item" target="_blank" href="https://1996xjm.github.io/tvbot/">
+                                <span class="cuIcon-text" style="font-size: 20px;color: var(--bs-xiaochigreen)"></span>
+                                <span style="text-indent: 5px;">Help documentation</span>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://www.youtube.com/playlist?list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4">
+                                <img src="https://1996xjm.github.io/chiplot/icon/youtube.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Video tutorials (English)</span>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://space.bilibili.com/30493771/channel/collectiondetail?sid=192106">
+                                <img src="https://1996xjm.github.io/chiplot/icon/bilibili.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Video tutorials (Chinese)</span>
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://github.com/1996xjm/TVBOT/issues">
+                                <img src="https://1996xjm.github.io/chiplot/icon/github.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Issues</span>
+
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+                <li><a href="/treeGallery.html" class="nav-link px-2 link-secondary text-black">Tree gallery</a></li>
+                <li><a href="/treeVersionHistory.html" class="nav-link px-2 link-secondary text-black">Version history</a></li>
+            </ul>
+
+<!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+<!--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">-->
+<!--            </form>-->
+
+<!--            <div class="dropdown text-end">-->
+<!--                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    <img src="" alt="mdo" width="32" height="32" class="rounded-circle">-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">-->
+<!--                    <li><a class="dropdown-item" href="#">New project...</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Settings</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--                    <li><hr class="dropdown-divider"></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Sign out</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+    </div>
+</header>
+<div id="gallery-app">
+    <section v-for="(item,di) in datasetTypeArr" style="margin-bottom: 30px;" class="section section-trade-acmi section-content section-content-oversized" data-component-list="ProgressiveImage">
+        <div  class="justify-center services-subsection banner-container">
+            <div :style="{flexDirection: di%2==0 ? 'initial':'row-reverse'}" class="fp-tile promo-tile trade progressive-image-animated" data-analytics-section-engagement="name:trade in" data-progressive-image-loaded="">
+                <div style="display: flex;align-items: center;" class="promo-image-wrapper large-5 small-12">
+                    <figure class="promo-image" :style="{backgroundImage: item.imgUrl}"></figure>
+                </div>
+                <div class="promo-copy large-6 small-12">
+                    <div class="promo-copy-wrapper">
+                        <h2 class="typography-promo-headline">{{item.title}}</h2>
+                        <ul style="text-align: left;">
+                            <li v-for="desc in item.descriptionArr" v-html="desc"></li>
+                        </ul>
+                        <div><span style="font-weight: bold;">Reference:</span> {{item.reference.description}} (<a :href="item.reference.doiUrl" target="_blank">{{item.reference.authorStr}}</a>)</div>
+                        <p class="link-wrap" v-for="btn in item.btnArr">
+                            <a style="border-radius: 30px;width: 50% !important;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" :href="btn.url" role="button">{{btn.key}}</a>
+                        </p>
+<!--                        <p class="link-wrap" v-if="item.VideoTutorial">-->
+<!--                            <a style="border-radius: 30px;width: 50% !important;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" :href="item.VideoTutorial" role="button">Video Tutorial</a>-->
+
+<!--                        </p>-->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+</div>
+<div id="qrcode-app" v-cloak>
+    <cookie-law-box></cookie-law-box>
+</div>
+</body>
+<script type="module">
+    import {FooterQRCode} from "/static/js/footerQRCode.js"
+    new FooterQRCode()
+    let galleryDataArr = [
+        {
+            title:"Divergence time tree generated by MCMCTree or BEAST",
+            descriptionArr:[
+                `Tree file in Nexus format generated by <a target="_blank" href="http://abacus.gene.ucl.ac.uk/software/paml.html">MCMCTree</a> or <a target="_blank" href="http://www.beast2.org/">BEAST</a> will be recognised automatically.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">Color blocks</a> are specified according to different genome lineages.`,
+                `The name of the leaves has been changed, compared with the original one in tree file. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/modify_leaves_name.html">modify leaves name</a>)`,
+                `Partially specified words of leaf name can be amended in italic while others stay normal. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/word_italic.html">word italic</a>)`,
+            ],
+            reference:{
+                description:"Fig. 2a | Phylogeny and time scale of 23 subgenomes from 16 cereal crops and related grass species.",
+                authorStr:"Peng et al., 2022",
+                doiUrl:"https://doi.org/10.1038/s41588-022-01127-7"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig2a-s41588-022-01127-7.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig2a-s41588-022-01127-7.json"
+                }
+            ],
+
+        },
+        {
+            title:"Circular tree with multiple rings of annotation information",
+            descriptionArr:[
+                `Different colors of circle <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> are added to indicate phylum information of the microbes.`,
+                `Background <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color blocks</a> are specified according to different clades.`,
+                `The first two rings of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_2.html">binary plots</a> represent the capability of ATP synthesis (two types of ATPase).`,
+                `The following five rings of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html">heatmaps</a> represent the abundance of five types of genes about fatty acid metabolism.`,
+                `The outside <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bar_plot_with_category.html">bar graph</a> denotes the lengths of the genomes colored by phylum categories.`,
+            ],
+            reference:{
+                description:"Fig. 2 | A large, 3,737 genome phylogeny annotated with functional genomic properties.",
+                authorStr:"Asnicar et al., 2015",
+                doiUrl:"https://peerj.com/articles/1029/"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/circleTree/Fig2-peerj.1029.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree (single data table)",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig2-peerj.1029_single_table.json"
+                },
+                {
+                    key:"View Tree (multiple data tables)",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig2-peerj.1029_separated_table.json"
+                }
+            ],
+
+        },
+        {
+            title:"Inward circular layout tree with interaction links in gradient color",
+            descriptionArr:[
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/link_between_two_nodes.html">Links</a> in gradient color from green (Inhibitor) to orange (Sensitive) show the inhibitory interactions.`,
+                `Different colors of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> at the tip of branch indicate lineages information of the microbes.`,
+                `The <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bubble_plot.html">bubble plot</a> on the external ring displays the number of detected BGCs (biosynthesis gene clusters).`,
+                `A <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/stacked_bar_plot.html">stacked bar</a> chart on the outermost ring is used to visualize the number of inhibiting and sensitive interactions per strain.`,
+
+            ],
+            reference:{
+                description:"Fig. 1b and Fig. 2 | Bacillales and Pseudomonadales dominate the binary interaction network.",
+                authorStr:"Helfrich et al., 2018",
+                doiUrl:"https://www.nature.com/articles/s41564-018-0200-0"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/circleTree/Fig1b_F2-s41564-018-0200-0.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig1b_F2-s41564-018-0200-0.json"
+                }
+            ],
+
+        },
+        {
+            title:"Rectangular tree with color blocks, text map and binary plot",
+            descriptionArr:[
+                `Different <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color blocks</a> on the branches correspond to different classes.`,
+                `Different <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_categories_of_branches.html">colors of branches</a> correspond to different phylogroups in the legend.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">Color blocks</a> behind leaves name indicate source of each strain.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/text_label.html">text map</a> in two columns displays the serotype and sequence type.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_1.html">Binary plot (type 1)</a> denotes resistance genes that present or not in each strain, blank circles indicate absence, and solid circles indicate presence.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_2.html">Binary plot (type 2)</a> denotes plasmid replicons that present or not in each strain, light color cells indicate absence, and dark color cells indicate presence.`,
+
+            ],
+            reference:{
+                description:"Fig. 3 | Phylogenetic relationships between the 80 cefotaxime-resistant E. coli strains.",
+                authorStr:"Sun et al., 2022",
+                doiUrl:"https://doi.org/10.2147/IDR.S397872"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig3-IDR.S397872.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig3-IDR.S397872.json"
+                }
+            ],
+
+        },
+        {
+            title:"Unrooted tree with color blocks",
+            descriptionArr:[
+                `Several <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color blocks</a> are specified according to different genome lineages.`,
+                `The name of the leaves has been changed, compared with the original one in tree file. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/modify_leaves_name.html">modify leaves name</a>)`
+            ],
+            reference:{
+                description:"Fig. 3 | Phylogenetics and polyploidization of Avena species.",
+                authorStr:"Peng et al., 2022",
+                doiUrl:"https://doi.org/10.1038/s41588-022-01127-7"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/unrootedTree/Fig3b1-s41588-022-01127-7.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/unrootedTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/unrootedTree/Fig3b1-s41588-022-01127-7.json"
+                },
+                {
+                    key:"Video Tutorial",
+                    url:"https://www.bilibili.com/video/BV1ZP4y1f797/"
+                },
+            ],
+
+        },
+        {
+            title:"Circular tree with color blocks and multiple rings of symbols",
+            descriptionArr:[
+                `Red <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color block</a> means papGII+ lineages; bright red one means lacking papGII lineages.`,
+                `Single ring of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> is added at branch tips to distinguish different clinical phenotypes.`,
+                `Three rings of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> are added at the outside ring to label different genotypes.`,
+                `Single ring of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> is added at the outside ring to label papGII+ PAI types.`,
+            ],
+            reference:{
+                description:"Fig. 5 Phylogenetic trees of isolates belonging to pandemic UPEC lineages CC69.",
+                authorStr:"Biggel et al., 2020",
+                doiUrl:"https://doi.org/10.1038/s41467-020-19714-9"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/circleTree/Fig5_CC69-s41467-020-19714-9.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig5_CC69-s41467-020-19714-9.json"
+                },
+                {
+                    key:"Video Tutorial",
+                    url:"https://www.bilibili.com/video/BV1F14y1v7So/"
+                },
+
+            ],
+
+        },
+        {
+            title:"Circular tree with multiple rings of color blocks",
+            descriptionArr:[
+                `Two rings of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> are added to distinguish different genotypes.`,
+                `There are five rings of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color blocks</a> are added to label different categories.`,
+            ],
+            reference:{
+                description:"Fig. 1 Phylogeny of 907 Escherichia coli isolates associated with different clinical phenotypes. ",
+                authorStr:"Biggel et al., 2020",
+                doiUrl:"https://doi.org/10.1038/s41467-020-19714-9"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/circleTree/Fig1-s41467-020-19714-9.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig1-s41467-020-19714-9.json"
+                }
+            ],
+
+        },
+        {
+            title:"Rectangular tree with italic species name and superscript of T",
+            descriptionArr:[
+                `Partially specified words of leaf name can be amended in italic while others stay normal. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/word_italic.html">word italic</a>)`,
+                `Batch <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_superscript_to_leaves_name.html">appending superscript</a> (eg. T means that species is type strain).`,
+            ],
+            reference:{
+                description:"Fig. 2. Phylogenomic relationship between strain LMIT005T and other type strains.",
+                authorStr:"Ali S, Xie J, Chen Y, et al., 2021",
+                doiUrl:"https://doi.org/10.1099/ijsem.0.005047"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig2-ijsem.0.005047.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig2-ijsem.0.005047.json"
+                }
+            ],
+
+        },
+        {
+            title:"Rectangular tree with heatmap and bar chart",
+            descriptionArr:[
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">Color blocks</a> are added to label different Phylum.`,
+                `Two columns of <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html">symbols</a> are added to distinguish different OTUs type.`,
+                `White and blue <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html">heatmap</a> represents differences in relative abundance among fertilisation treatments.`,
+                `Green <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_bar_plot.html">bar graph</a> represents relative abundance of OTUs with a maximum value of 29.2%.`
+            ],
+            reference:{
+                description:"Fig. 4c Cultivation-dependent coverage of OTUs in xylem.",
+                authorStr:"Zhang, L., Zhang, M., Huang, S. et al., 2022",
+                doiUrl:"https://doi.org/10.1038/s41467-022-31113-w"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig4c-s41467-022-31113-w.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig4c-s41467-022-31113-w.json"
+                }
+            ],
+
+        },
+        {
+            title:"Unrooted tree with color categories of branches",
+            descriptionArr:[
+                `Different <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_categories_of_branches.html">colors of branches</a> denote the geographic origins of L. serriola from WEU, SEU, EEU, WAS, CAU and CAS, as well as admixed samples and those with
+no collection information (other)`,
+
+            ],
+            reference:{
+                description:"Fig. 2a A neighbor-joining tree of 133 L. sativa (black lines) and 199 L. serriola accessions.",
+                authorStr:"Wei, T., van Treuren, R., Liu, X. et al., 2021",
+                doiUrl:"https://doi.org/10.1038/s41588-021-00831-0"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/unrootedTree/Fig2a-s41588-021-00831-0.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/unrootedTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/unrootedTree/Fig2a-s41588-021-00831-0.json"
+                }
+            ],
+
+        },
+        {
+            title:"Circular tree with heatmap and color categories of branches",
+            descriptionArr:[
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html">Heatmap</a> is added to distinguish fold changes about expression level of each gene.`,
+                `Different <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_categories_of_branches.html">colors of branches</a> denote the receptors from different subfamilies(Classes).`,
+            ],
+            reference:{
+                description:"Fig. 1b Phylogenetic tree of the putative S. clava was constructed using the Neighbor-Joining method.",
+                authorStr:"Zhang et al., 2022",
+                doiUrl:"https://doi.org/10.3390/biology11050782"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/circleTree/Fig1b_biology11050782.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/Fig1b_biology11050782.json"
+                }
+            ],
+
+        },
+        {
+            title:"Rectangular tree with binary plot and color blocks",
+            descriptionArr:[
+                `Different <a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">color blocks</a> of the branches correspond to different families in the legend.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_1.html">Binary plot (type 1)</a> denotes species that occur or not at different altitudes, blank circles indicate absence, and solid circles indicate presence during the survey.`,
+            ],
+            reference:{
+                description:"Fig. 1 The phylogenetic distribution of all plants in this study.",
+                authorStr:"Deng et al., 2022",
+                doiUrl:"https://doi.org/10.3390/d14100832"
+            },
+            imgUrl:"url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig1_d14100832.jpg')",
+            btnArr:[
+                {
+                    key:"View Tree",
+                    url:"/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig1_d14100832.json"
+                }
+            ],
+
+        },
+
+
+    ]
+
+    Vue.createApp({
+        data() {
+            return {
+                "datasetTypeArr":galleryDataArr.slice(0,2),
+                page: 1, // 当前页
+                page_size: 2, // 每页总条数
+
+            };
+        },
+        mounted () {
+            window.addEventListener('scroll', this.lazyLoading) // 滚动到底部，再加载的处理事件
+        },
+        methods: {
+
+            // 请求接口，获取数据
+            getData () {
+
+                console.log("loading..........")
+                this.datasetTypeArr = galleryDataArr.slice(0,this.page * this.page_size)
+
+            },
+            // 滚动加载
+            lazyLoading () { // 滚动到底部，再加载的处理事件
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                const clientHeight = document.documentElement.clientHeight
+                const scrollHeight = document.documentElement.scrollHeight
+
+                if (scrollTop + clientHeight >= scrollHeight) {
+                    // 滚动到底部，逻辑代码
+                    this.page++
+                    if (this.page  > galleryDataArr.length/this.page_size + 1) return
+                    this.getData()
+                }
+            },
+        }
+    })
+        .mount(`#gallery-app`)
+
+
+
+</script>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Version history</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/static/xiaochiPlot/chiplot_favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/vue.global.js"></script>
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/d3.v6.min.js"></script>
+    <link href="https://1996xjm.github.io/chiplot/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://1996xjm.github.io/chiplot/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/icon.css">
+</head>
+<style>
+    :root {
+        --bs-xiaochigreen: #42b983;
+        --bs-xiaochiorange: #fc8d62;
+
+    }
+    .bg-xiaochigreen{
+        background-color: var(--bs-xiaochigreen);
+
+    }
+    #logo {
+        display: inline-block;
+        font-size: 1.5em;
+        line-height: 0px;
+        height: 45px;
+        color: #273849;
+        font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+    }
+
+
+    header{
+
+        width: 100%;
+        /*position: absolute;*/
+        z-index: 8;
+        /*background-color: var(--bs-xiaochigreen);*/
+
+
+    }
+    .btn-xiaochi{
+        color: #fff;
+        background-color: var(--bs-xiaochigreen);
+        box-shadow:0 2px 6px 0 rgba(102,195,165,.5);
+    }
+
+    .figure-cover:hover{
+        transform: scale(1.2);
+        transition: all 0.5s ease 0s;
+    }
+    .figure-cover{
+        transition: all 0.5s ease 0s;
+        cursor: pointer;
+    }
+    #update-info-link:before{
+        position: absolute;
+        content: "1";
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        color: white;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 100%;
+        margin-left: 70px;
+    }
+    #left-chart-nav .chart-icon{
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+
+    #left-chart-nav .chart-icon svg{
+        width: 100% !important;
+        height: 100% !important;
+
+    }
+    .nav-item-box:hover{
+        border-right: solid 4px #cccccc;
+    }
+    .selected-nav-item{
+        background-color: #cccccc;
+    }
+    .carousel-item-index{
+        height: 450px;
+        background-color: white;
+    }
+    .carousel-caption{
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 20px;
+    }
+
+     h1 { font-size: 2em;}
+    h2 { font-size: 1.2em;}
+
+
+</style>
+
+<body>
+<header class="p-3 mb-3">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/tvbot.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+<!--                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
+                <span class="text-black" style="font-weight: bold;color: white;">TVBOT</span>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/myTrees.html" class="nav-link px-2 link-secondary text-black">My trees</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Help
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+
+                            <a class="dropdown-item" target="_blank" href="https://1996xjm.github.io/tvbot/">
+                                <span class="cuIcon-text" style="font-size: 20px;color: var(--bs-xiaochigreen)"></span>
+                                <span style="text-indent: 5px;">Help documentation</span>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://www.youtube.com/playlist?list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4">
+                                <img src="https://1996xjm.github.io/chiplot/icon/youtube.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Video tutorials (English)</span>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://space.bilibili.com/30493771/channel/collectiondetail?sid=192106">
+                                <img src="https://1996xjm.github.io/chiplot/icon/bilibili.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Video tutorials (Chinese)</span>
+
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://github.com/1996xjm/TVBOT/issues">
+                                <img src="https://1996xjm.github.io/chiplot/icon/github.png" style="width: 20px;">
+                                <span style="text-indent: 5px;">Issues</span>
+
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li><a href="/treeGallery.html" class="nav-link px-2 link-secondary text-black">Tree gallery</a></li>
+                <li><a href="/treeVersionHistory.html" class="nav-link px-2 link-secondary text-black">Version history</a></li>
+            </ul>
+
+<!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+<!--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">-->
+<!--            </form>-->
+
+<!--            <div class="dropdown text-end">-->
+<!--                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    <img src="" alt="mdo" width="32" height="32" class="rounded-circle">-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">-->
+<!--                    <li><a class="dropdown-item" href="#">New project...</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Settings</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--                    <li><hr class="dropdown-divider"></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Sign out</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+    </div>
+</header>
+<div id="gallery-app">
+    <section v-for="(item,di) in datasetTypeArr" style="margin: auto;width: 94%;margin-top: 4em;" class="section section-trade-acmi section-content section-content-oversized" data-component-list="ProgressiveImage">
+        <div style="display: flex;width: 260px;justify-content: space-between;">
+            <h2>{{item.title}} </h2>
+            <h2 style="color: #42b983;">{{item.date}} </h2>
+        </div>
+        <ul>
+            <li v-for="desc in item.descriptionArr" v-html="desc"></li>
+        </ul>
+    </section>
+
+
+</div>
+<div id="qrcode-app" v-cloak>
+    <cookie-law-box></cookie-law-box>
+</div>
+</body>
+<script type="module">
+    import {FooterQRCode} from "/static/js/footerQRCode.js"
+    new FooterQRCode()
+    let galleryDataArr = [
+        {
+            title:"Version 1.0",
+            date:"2021-10-02",
+            descriptionArr:[
+                `Initial release`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.0.1",
+            date:"2021-10-09",
+            descriptionArr:[
+                `New function: view example tree file.`,
+                `New function: view tree file uploaded by user.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.0.2",
+            date:"2021-10-12",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/data.html" target="_blank">copy all node IDs</a> of tree.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.1",
+            date:"2021-10-12",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/data.html" target="_blank">copy all node IDs</a> of tree.`,
+                "Bug fixes."
+
+            ],
+
+        },
+        {
+            title:"Version 1.2",
+            date:"2021-10-16",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/data.html#originaljsondata" target="_blank">save the final drawing state</a> of svg canvas.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.2.1",
+            date:"2021-10-22",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html" target="_blank">add symbol</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.2.2",
+            date:"2021-10-30",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_bar_plot.html" target="_blank">base bar plot</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bar_plot_with_category.html" target="_blank">bar plot with category</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.3",
+            date:"2021-11-03",
+            descriptionArr:[
+                `New tree display mode: circular layout.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 1.3.1",
+            date:"2021-11-07",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/canvas.html#change-tree-structure" target="_blank">tree can be rerooted</a>.`,
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/canvas.html#change-tree-structure" target="_blank">the order of each node's children can be reversed</a>.`,
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/canvas.html#change-tree-structure" target="_blank">copy node ID</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.3.2",
+            date:"2021-11-14",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/canvas.html#change-tree-structure" target="_blank">fold and unfold clade</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.3.3",
+            date:"2021-11-18",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/reset.html" target="_blank">reset reroot tree</a>.`,
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/reset.html" target="_blank">reset reverse node's children</a>.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 1.3.3",
+            date:"2021-11-18",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/reset.html" target="_blank">reset reroot tree</a>.`,
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/attribute_main/reset.html" target="_blank">reset reverse node's children</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.4",
+            date:"2021-12-05",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html" target="_blank">color block of leaves name</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html" target="_blank">heatmap</a>.`,
+
+            ],
+
+        },
+        {
+            title:"Version 1.4.1",
+            date:"2021-12-07",
+            descriptionArr:[
+                `New function: support adding multiple dataset layer data files.`,
+                `New function: view dataset layer data files uploaded by user.`,
+                "Bug fixes."
+
+            ],
+
+        },
+        {
+            title:"Version 1.4.2",
+            date:"2021-12-12",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/layers_panel/Layers_manager.html" target="_blank">edit the layer name</a> in layers manager.`,
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/layers_panel/Layers_manager.html" target="_blank">show layer information</a> in layers manager.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 1.5",
+            date:"2021-12-20",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html" target="_blank">color block of leaves name</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html" target="_blank">heatmap</a>.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 1.5.1",
+            date:"2021-12-25",
+            descriptionArr:[
+                `New function: <a href="https://1996xjm.github.io/tvbot/user_interface/layers_panel/layer_data_files_manager.html" target="_blank">update layer data file</a>.`,
+                "Fix tree file parsing error."
+            ],
+
+        },
+
+        {
+            title:"Version 1.5.2",
+            date:"2021-12-29",
+            descriptionArr:[
+                `New function: support exporting eps and png format.`,
+
+            ],
+
+        },
+
+        {
+            title:"Version 1.6",
+            date:"2022-01-01",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_1.html" target="_blank">binary type 1</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_2.html" target="_blank">binary type 2</a>.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 1.6.1",
+            date:"2022-01-15",
+            descriptionArr:[
+                `New function: support touch control for mobile devices such as iPad.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 1.7",
+            date:"2022-03-10",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_superscript_to_leaves_name.html" target="_blank">append superscript to leaves name</a>.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 1.7.1",
+            date:"2022-04-15",
+            descriptionArr:[
+                `New function: set global font style.`,
+            ],
+
+        },
+        {
+            title:"Version 1.8",
+            date:"2022-05-02",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/text_label.html" target="_blank">text map</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/text_label_with_category.html" target="_blank">text map with category</a>.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 1.8.1",
+            date:"2022-05-15",
+            descriptionArr:[
+                `New function: heatmap supports custom color bar.`,
+            ],
+
+        },
+        {
+            title:"Version 1.9",
+            date:"2022-06-07",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/link_between_two_nodes.html" target="_blank">link between two nodes</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/pie_chart.html" target="_blank">pie chart</a>.`,
+
+
+            ],
+
+        },
+        {
+            title:"Version 2.0",
+            date:"2022-06-25",
+            descriptionArr:[
+                `New tree display mode: unrooted layout.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 2.0.1",
+            date:"2022-07-12",
+            descriptionArr:[
+                `New function: support importing tree file in Nexus format.`,
+            ],
+
+        },
+        {
+            title:"Version 2.1",
+            date:"2022-07-20",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_box_plot.html" target="_blank">base box plot</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/box_plot_with_category.html" target="_blank">box plot with category</a>.`,
+            ],
+
+        },
+        {
+            title:"Version 2.2",
+            date:"2022-08-17",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/stacked_bar_plot.html" target="_blank">stacked bar plot</a>.`,
+            ],
+
+        },
+        {
+            title:"Version 2.2.1",
+            date:"2022-08-26",
+            descriptionArr:[
+                `New function: value text of bar plot can be changed to different formats.`,
+            ],
+
+        },
+        {
+            title:"Version 2.3",
+            date:"2022-09-18",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_lollipop_plot.html" target="_blank">base lollipop plot</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/lollipop_plot_with_category.html" target="_blank">lollipop plot with category</a>.`,
+            ],
+
+        },
+        {
+            title:"Version 2.3.1",
+            date:"2022-10-11",
+            descriptionArr:[
+                `New function: copy node IDs of all the leaves from one parent node.`,
+            ],
+
+        },
+        {
+            title:"Version 2.3.2",
+            date:"2022-10-18",
+            descriptionArr:[
+                `New function: support importing tree file in phyloXML format.`,
+                `Add date to original json data file.`,
+                `Fix tree rerooting error.`,
+                `Fix bootstrap value scaling error.`
+            ],
+
+        },
+        {
+            title:"Version 2.3.3",
+            date:"2022-10-24",
+            descriptionArr:[
+                `New function: support deleting whole clade or leaf.`,
+                `Add icons to tree structure function menu.`,
+            ],
+
+        },
+        {
+            title:"Version 2.4",
+            date:"2022-10-29",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/branch_text_label.html" target="_blank">branch text label</a>.`,
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/branch_pie_chart.html" target="_blank">branch pie chart</a>.`,
+                `New function: copy all IDs of internal nodes.`,
+                `New function: show node information when move the mouse on a branch.`,
+                `New function: support displaying branch length axis for rectangular layout tree.`,
+                `New function: Divergence time tree file in Nexus format generated by <a target="_blank" href="http://abacus.gene.ucl.ac.uk/software/paml.html">MCMCTree</a> will be recognised automatically.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 2.4.1",
+            date:"2022-11-06",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bubble_plot.html" target="_blank">bubble plot</a>.`,
+                `New function: add more types of symbol for binary plot.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 2.4.2",
+            date:"2022-12-04",
+            descriptionArr:[
+                `New dataset layer: <a href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/geologic_time_scale.html" target="_blank">geologic time scale</a>.`,
+                "Bug fixes."
+            ],
+
+        },
+        {
+            title:"Version 2.4.3",
+            date:"2023-01-01",
+            descriptionArr:[
+                `New function: support displaying branch length axis for circular layout tree.`,
+                `New function: Divergence time tree file in Nexus format generated by <a target="_blank" href="http://www.beast2.org/">BEAST</a> will be recognised automatically.`,
+                "Bug fixes."
+            ],
+
+        },
+
+
+
+
+
+
+
+
+
+
+    ]
+
+    Vue.createApp({
+        data() {
+            return {
+                "datasetTypeArr":galleryDataArr.reverse(),
+
+            };
+        },
+        methods: {
+
+
+        }
+    })
+        .mount(`#gallery-app`)
+
+
+
+</script>
+</html>

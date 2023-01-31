@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>normal tree</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/static/xiaochiPlot/chiplot_favicon.ico" type="image/x-icon" />
+
+    <meta name="viewport" content="user-scalable=0">
+
+</head>
+<!--<script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/d3.v6.min.js"></script>-->
+<script src="https://1996xjm.github.io/chiplot/js/d3.v7.6.1.min.js"></script>
+<script src="https://1996xjm.github.io/chiplot/js/d3-color.v1.min.js"></script>
+<!--<script src="/static/xiaochiPlot/js/underscore-min.js"></script>-->
+<!--<script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/phylotree.js"></script>-->
+<script src="https://1996xjm.github.io/chiplot/js/vue.global.js"></script>
+<script src="https://1996xjm.github.io/chiplot/js/xlsx.core.min.js"></script>
+<!--<script src="/static/js/colorbrewer.js"></script>-->
+<script src="https://1996xjm.github.io/chiplot/js/axios.min.js"></script>
+
+<!--<link rel="stylesheet" type="text/css" href="/static/css/colorUI.css">-->
+<!--<link rel="stylesheet" type="text/css" href="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/css/bootstrap.css">-->
+<link href="https://1996xjm.github.io/chiplot/css/bootstrap.css" rel="stylesheet"  type="text/css">
+<link rel="stylesheet" type="text/css" href="/static/css/plotStyle.css">
+<link rel="stylesheet" type="text/css" href="/static/css/icon.css">
+<link rel="stylesheet" type="text/css" href="/static/css/animation.css">
+<link rel="stylesheet" type="text/css" href="/static/css/normalTree.css">
+
+
+
+<body>
+
+<div id="app2">
+    <svg-resizebox  ref="svgResizebox"  ></svg-resizebox>
+
+</div>
+
+<div id="svg-div" style="position: absolute;left: 0px;">
+
+
+    <!--    外面要套一层div才能被html2canvas识别    -->
+    <svg  id="svg" ></svg>
+
+</div>
+<div id="layout_phylotree_context_menu_app">
+    <div v-show="isShowMenu" id="tree-structure-change-btn-box"  :style="{top: clientY + 'px', left: clientX  + 'px'}">
+        <div class="tree-structure-change-btn-item" >
+            <div class="cuIcon-fork" style="color: #42b983;font-size: 20px;"></div>
+        <div class="btn-click—box" @touchstart="reRoot" @click="reRoot">Reroot on this node</div>
+           <div style="display: flex;margin-left: 5px;">
+               <label class="mybutton" style="cursor: auto !important;">offset</label>
+               <input v-model="offsetRate" data-type="ignoreClick" style="width: 24px;border: none;background-color: #f1f3fa;border-radius: 0.25rem;">
+           </div>
+        </div>
+        <section v-for="btn in btnItemArr">
+
+        <div v-show="btn.show" class="tree-structure-change-btn-item" @touchstart="handleBtnClick(btn.method)" @click="handleBtnClick(btn.method)">
+            <div :class="btn.icon" style="color: #42b983;font-size: 20px;"></div>
+            <div class="btn-click—box">{{btn.name}}</div>
+        </div>
+        </section>
+
+
+
+    </div>
+</div>
+<div id="app" style="overflow: hidden;" v-cloak>
+    <control-plane  ref="controlPlane" :cindex="currentControlListIndex" ></control-plane>
+    <layer-plane ref="layerPlane"></layer-plane>
+</div>
+<div class="page-loading" id="page-loading-box" style="position:absolute;width:100%;display: flex;justify-content: center;top: 300px;flex-direction: column;">
+    <span style="text-align: center;color: white;">Loading...</span>
+</div>
+<div id="project-manager-app" v-cloak>
+    <project-manager ref="projectManager"></project-manager>
+</div>
+<div id="qrcode-app" v-cloak>
+    <cookie-law-box></cookie-law-box>
+</div>
+
+
+</body>
+<script type="module" src="/static/xiaochiPlot/minJS/normalTree.min.js"></script>
+
+
+</html>

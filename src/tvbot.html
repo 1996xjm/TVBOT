@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TVBOT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/static/xiaochiPlot/chiplot_favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/vue.global.js"></script>
+    <script src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/js/d3.v6.min.js"></script>
+    <link href="https://1996xjm.github.io/chiplot/css/bootstrap.min.css" rel="stylesheet"  type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://1996xjm.github.io/chiplot/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/icon.css">
+    <link rel="stylesheet" href="https://1996xjm.github.io/chiplot/css/overview.css">
+
+</head>
+<style>
+    :root {
+        --bs-xiaochigreen: #42b983;
+        --bs-xiaochiorange: #fc8d62;
+
+    }
+    .bg-xiaochigreen{
+        background-color: var(--bs-xiaochigreen);
+
+    }
+    #logo {
+        display: inline-block;
+        font-size: 1.5em;
+        line-height: 0px;
+        height: 45px;
+        color: #273849;
+        font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+        font-weight: 500;
+    }
+
+
+    header{
+
+        width: 100%;
+        position: absolute;
+        z-index: 8;
+
+
+    }
+    .btn-xiaochi{
+        color: #fff;
+        background-color: var(--bs-xiaochigreen);
+        box-shadow:0 2px 6px 0 rgba(102,195,165,.5);
+    }
+
+    .figure-cover:hover{
+        transform: scale(1.2);
+        transition: all 0.5s ease 0s;
+    }
+    .figure-cover{
+        transition: all 0.5s ease 0s;
+        cursor: pointer;
+    }
+    #update-info-link:before{
+        position: absolute;
+        content: "1";
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        color: white;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 100%;
+        margin-left: 70px;
+    }
+    #left-chart-nav .chart-icon{
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+    }
+
+    #left-chart-nav .chart-icon svg{
+        width: 100% !important;
+        height: 100% !important;
+
+    }
+    .nav-item-box:hover{
+        border-right: solid 4px #cccccc;
+    }
+    .selected-nav-item{
+        background-color: #cccccc;
+    }
+    .carousel-item-index{
+        height: 450px;
+        background-color: white;
+    }
+    .carousel-caption{
+        background-color: rgba(0,0,0,0.7);
+        border-radius: 20px;
+        padding: 1.25rem 0.5rem;
+    }
+    .dropdown-menu li{
+        display: flex;
+        align-items: center;
+    }
+    table.data-choose{
+        border-collapse: collapse;
+        width: 96%;
+        margin-bottom: 10px;
+    }
+    table.data-choose tr:nth-child(odd) {
+        background-color: #fff4f0;
+    }
+
+    table.data-choose tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    table.data-choose th {
+        color: #fff;
+        background-color: #7f7f7f;
+        border: 1px solid white;
+        font-weight: bold;
+        padding: 3px;
+        vertical-align: center;
+        text-align: center;
+        height: 30px;
+        line-height: 30px;
+        /*display: inline-flex;*/
+        /*align-items: center;*/
+    }
+    table.data-choose td {
+        line-height: 2em;
+        min-width: 24px;
+        border: 1px solid #d4d4d4;
+        padding: 5px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        vertical-align: center;
+        text-align: center;
+
+    }
+    .cell-fill-line{
+        width: 40%;
+        height: 14px;
+        background-color: #a5a5a5;
+        border-radius: 14px;
+        margin: auto;
+    }
+    .promo-image{
+        position: static !important;
+        margin-left: unset !important;
+    }
+    .carousel-caption h5{
+        color: white !important;
+    }
+
+</style>
+
+<body>
+<header class="p-3 mb-3">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/tvbot.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+<!--                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
+                <span style="font-weight: bold;color: white;">TVBOT</span>
+<!--                <span style="width: 91px;font-size: 10px;">Tree Visulization By One Table</span>-->
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="/myTrees.html" class="nav-link px-2 link-secondary text-white">My trees</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Help
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+
+                            <a class="dropdown-item" target="_blank" href="https://1996xjm.github.io/tvbot/">
+                                <span class="cuIcon-text" style="font-size: 20px;color: var(--bs-xiaochigreen)"></span>
+                                <span style="text-indent: 5px;">Help documentation</span>
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://www.youtube.com/playlist?list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4">
+                            <img src="https://1996xjm.github.io/chiplot/icon/youtube.png" style="width: 20px;">
+                            <span style="text-indent: 5px;">Video tutorials (English)</span>
+
+                        </a>
+                        </li>
+                       <li>
+                            <a class="dropdown-item" target="_blank" href="https://space.bilibili.com/30493771/channel/collectiondetail?sid=192106">
+                                <img src="https://1996xjm.github.io/chiplot/icon/bilibili.png" style="width: 20px;">
+                            <span style="text-indent: 5px;">Video tutorials (Chinese)</span>
+
+                        </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" target="_blank" href="https://github.com/1996xjm/TVBOT/issues">
+                                <img src="https://1996xjm.github.io/chiplot/icon/github.png" style="width: 20px;">
+                            <span style="text-indent: 5px;">Issues</span>
+
+                        </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <li><a href="/treeGallery.html" class="nav-link px-2 link-secondary text-white">Tree gallery</a></li>
+                <li><a href="/treeVersionHistory.html" class="nav-link px-2 link-secondary text-white">Version history</a></li>
+            </ul>
+
+<!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+<!--                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">-->
+<!--            </form>-->
+
+<!--            <div class="dropdown text-end">-->
+<!--                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    <img src="" alt="mdo" width="32" height="32" class="rounded-circle">-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">-->
+<!--                    <li><a class="dropdown-item" href="#">New project...</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Settings</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--                    <li><hr class="dropdown-divider"></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Sign out</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+    </div>
+</header>
+<div style="position: absolute;width: 100%;">
+
+    <div style="position: absolute;right: 40px;bottom:120px;width: 700px;border-radius: 8px;background-color: white;margin-top: 10px;">
+
+        <div style="background-color: #efefef;height: 30px;border-top-left-radius: 8px;border-top-right-radius: 8px;display: flex;align-items: center;">
+            <div style="width: 10px;height: 10px;background-color: #ed6a5e;border-radius: 100%;margin-left: 10px;"></div>
+            <div style="width: 10px;height: 10px;background-color: #f5bd4f;border-radius: 100%;margin-left: 10px;"></div>
+            <div style="width: 10px;height: 10px;background-color: #62c455;border-radius: 100%;margin-left: 10px;"></div>
+        </div>
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" >
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active carousel-item-index">
+                    <img src="https://1996xjm.github.io/chiplot/img/tvbot/indexPage/exampleDatasetLayerFile.jpg" class="d-block w-100" alt="...">
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>TVBOT: Tree Visulization By One Table</h5>
+                        <p>Without any redundant data, all annotation data can be organized in one sheet and select corresponding data columns when adding specific dataset layer.</p>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item-index">
+                    <!--                    <img src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/img/cover/circleTree.jpg" class="d-block w-100" alt="...">-->
+                    <div style="display: flex;justify-content: center;">
+                        <video height="450"  muted    autoplay loop="loop" poster="https://1996xjm.github.io/chiplot/video/dragcontrol_cover.jpg" webkit-playsinline="true" playsinline="true">
+<!--                            <source src="https://1996xjm.github.io/chiplot/video/dragcontrol.mp4" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="portraint" type="video/mp4">-->
+                        </video>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>High level of interaction</h5>
+                        <p>Use drag attribute adjustment to update and render changes in real time</p>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item-index">
+                    <div style="display: flex;justify-content: center;">
+                        <video height="450"  muted    autoplay loop="loop" poster="https://1996xjm.github.io/chiplot/video/userInterface_cover.jpg" webkit-playsinline="true" playsinline="true">
+<!--                            <source src="https://1996xjm.github.io/chiplot/video/userInterface.mp4" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="portraint" type="video/mp4">-->
+                        </video>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Simple user interface</h5>
+                        <p>Simple and hierarchical operation interface can reduce learning cost.</p>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item-index">
+                    <!--                    <img src="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/img/cover/normalTree.jpg" class="d-block w-100" alt="...">-->
+                    <div style="display: flex;justify-content: center;">
+                        <video height="450"  muted    autoplay loop="loop" poster="https://xiaochi-1253795707.cos.ap-guangzhou.myqcloud.com/xiaochiPlot/img/carousel/ipadshow.jpg" webkit-playsinline="true" playsinline="true">
+                            <!--                            <source src="/static/xiaochiPlot/video/ipadshow.mp4" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="portraint" type="video/mp4">-->
+                        </video>
+                    </div>
+
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Support touch control</h5>
+                        <p>Support tablet touch and stylus, such as iPad and Apple pencil.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div style="position: absolute;width: 700px;height: 30px;right: 40px;bottom: 210px;box-shadow: 0px 170px 20px rgba(0, 0, 0, 0.4);border-radius: 100%;"></div>
+    <div style="width: 100%;height: 600px;background: linear-gradient(#dbdbdb,#7d7d7d);"></div>
+    <div style="width: 100%;height: 100px;background: linear-gradient(#aaaaaa, #dbdbdb);"></div>
+</div>
+
+<div style="position: relative">
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="width: 700px;position: absolute;z-index: 3;bottom: 10px;left: 10px;">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm" style="border: none;">
+<!--                <div class="card-header py-3 text-white bg-xiaochigreen">-->
+<!--                    <h4 class="my-0 fw-normal">Normal layout</h4>-->
+<!--                </div>-->
+                <div class="card-body" style="overflow: hidden;">
+                    <a href="/normalTree.html" target="_blank">
+
+                        <img class="figure-cover" style="width: 100%;" src="https://1996xjm.github.io/chiplot/img/cover/normalTree.jpg">
+                    </a>
+                    <h5 style="height: 60px;line-height: 60px;" class="my-0 fw-normal">Normal layout</h5>
+                    <a style="border-radius: 30px;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" href="/normalTree.html" role="button">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm" style="border: none;">
+<!--                <div class="card-header py-3 text-white bg-xiaochigreen">-->
+<!--                    <h4 class="my-0 fw-normal">Circular layout</h4>-->
+<!--                </div>-->
+                <div class="card-body" style="overflow: hidden;">
+                    <a href="/circleTree.html" target="_blank">
+                    <img class="figure-cover" style="width: 100%;" src="https://1996xjm.github.io/chiplot/img/cover/circleTree.jpg" alt="">
+                    </a>
+                        <h5 style="height: 60px;line-height: 60px;" class="my-0 fw-normal">Circular layout</h5>
+                    <a style="border-radius: 30px;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" href="/circleTree.html" role="button">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+
+            <div class="card mb-4 rounded-3 shadow-sm" style="border: none;">
+                <!--                <div class="card-header py-3 text-white bg-xiaochigreen">-->
+                <!--                    <h4 class="my-0 fw-normal">Circular layout</h4>-->
+                <!--                </div>-->
+                <div class="card-body" style="overflow: hidden;">
+                    <a href="/unrootedTree.html" target="_blank">
+                    <img class="figure-cover" style="width: 100%;" src="https://1996xjm.github.io/chiplot/img/cover/unrootedTree.jpg" alt="">
+                    </a>
+                        <h5 style="height: 60px;line-height: 60px;" class="my-0 fw-normal">Unrooted layout</h5>
+                    <a style="border-radius: 30px;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" href="/unrootedTree.html" role="button">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <svg style="z-index: 2;position: relative;" id="svg-cover" >
+        <defs>
+            <linearGradient id="arrowGradientFill-PUL1" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="20%" stop-color="#42b983"></stop>
+                <stop offset="100%" stop-color="#fc8d62"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+
+</div>
+<div style="margin-top: 10px;display: flex;justify-content: flex-end;">
+    <div style="margin-right: 40px;"><span class="cuIcon-tagfill" style="background-color: var(--bs-xiaochigreen);color: white;padding: 5px;border-radius: 4px;font-weight: bold;"> Latest:</span><a target="_blank" href="/treeVersionHistory.html"> version 2.4.3</a></div>
+</div>
+<div style="margin-top: 40px;" id="gallery-app">
+    <section v-for="(item,di) in datasetTypeArr" style="margin-bottom: 30px;" class="section section-trade-acmi section-content section-content-oversized" data-component-list="ProgressiveImage">
+        <div  class="justify-center services-subsection banner-container">
+            <div :style="{flexDirection: di%2==0 ? 'initial':'row-reverse'}" class="fp-tile promo-tile trade progressive-image-animated" data-analytics-section-engagement="name:trade in" data-progressive-image-loaded="">
+                <div style="display: flex;flex-direction: column;align-items: center;" class="promo-image-wrapper large-5 small-12">
+                    <figure class="promo-image" :style="{backgroundImage: item.imgUrl}"></figure>
+                    <table class="data-choose" v-if="item.table">
+                        <tbody>
+                    <tr>
+                        <th>{{item.table.firstColumnName}}</th>
+                        <th v-for="value in item.table.tableData[0]">
+                            <input type="checkbox" checked >
+                            <span style="margin-left: 5px;">{{value}}</span>
+
+                        </th>
+                        <th>
+                            <div style="display: flex;">
+                                <input type="checkbox" >
+                                <div class="cell-fill-line" style="background-color: white;"></div>
+                            </div>
+
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="cell-fill-line" ></div>
+                        </td>
+                        <td v-for="value in item.table.tableData[1]">{{value}}</td>
+                        <td><div class="cell-fill-line" ></div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="cell-fill-line" ></div>
+                        </td>
+                        <td v-for="value in item.table.tableData[2]">{{value}}</td>
+                        <td><div class="cell-fill-line" ></div></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="cell-fill-line" ></div>
+                        </td>
+                        <td v-for="value in item.table.tableData[3]">{{value}}</td>
+                        <td><div class="cell-fill-line" ></div></td>
+                    </tr>
+                    </tbody></table>
+                </div>
+                <div class="promo-copy large-6 small-12" style="display: flex;flex-direction: column;justify-content: center;">
+                    <div class="promo-copy-wrapper">
+                        <h2 class="typography-promo-headline">{{item.title}}</h2>
+                        <ul style="text-align: left;">
+                            <li v-for="desc in item.descriptionArr" v-html="desc"></li>
+                        </ul>
+                        <div style="text-align: left;" v-for="row in item.keyRows"><span style="font-weight: bold;">{{row.key}}:</span > <span v-html="row.value"></span></div>
+
+                        <p class="link-wrap">
+                            <a style="border-radius: 30px;width: 50% !important;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" :href="item.jsonUrl" role="button">View Tree</a>
+                        </p>
+                        <p class="link-wrap" v-if="item.VideoTutorial">
+                            <a style="border-radius: 30px;width: 50% !important;" class="w-100 btn btn-lg btn-xiaochi" target="_blank" :href="item.VideoTutorial" role="button">Video Tutorial</a>
+
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+</div>
+<div id="qrcode-app" v-cloak>
+    <cookie-law-box></cookie-law-box>
+</div>
+</body>
+<script type="module">
+
+    import {FooterQRCode} from "/static/js/footerQRCode.js"
+    new FooterQRCode()
+
+
+    let galleryDataArr = [
+        {
+            "title": "Display divergence time tree generated by MCMCTree or BEAST",
+            "descriptionArr": [
+                `Tree file in Nexus format generated by <a target="_blank" href="http://abacus.gene.ucl.ac.uk/software/paml.html">MCMCTree</a> or <a target="_blank" href="http://www.beast2.org/">BEAST</a> will be recognised automatically.`,
+                `<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html">Color blocks</a> are specified according to different genome lineages.`,
+                `The name of the leaves has been changed, compared with the original one in tree file. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/modify_leaves_name.html">modify leaves name</a>)`,
+                `Partially specified words of leaf name can be amended in italic while others stay normal. (<a target="_blank" href="https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/word_italic.html">word italic</a>)`,
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/Gallery/normalTree/Fig2a-s41588-022-01127-7.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/Fig2a-s41588-022-01127-7.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Reference",
+                    "value": `<a target="_blank" href="https://doi.org/10.1038/s41588-022-01127-7">Peng et al., 2022</a>.`
+                },
+
+            ],
+
+        },
+        {
+            "title": "Geologic time scale for divergence time tree",
+            "descriptionArr": [
+
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/geologicTimeScale.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/geologic_time_scale.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "geologic time scale"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "this dataset needs a special data format described in documentation."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/geologic_time_scale.html\" target=\"_blank\">geologic time scale</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "period",
+                        "start",
+                        "end"
+                    ],
+                    [
+                        "Pli.",
+                        "5.33",
+                        "2.58"
+                    ],
+                    [
+                        "Miocene",
+                        "23.03",
+                        "5.33"
+                    ],
+                    [
+                        "Oligocene",
+                        "33.9",
+                        "23.03"
+                    ]
+                ],
+                "firstColumnName": "Period IDs"
+            }
+
+        },
+        {
+            "title": "Batch italicize specified words in leaf name texts",
+            "descriptionArr": [
+                "With one column of string specifier data, partially specified words can be amended in italic while others stay normal.",
+                "The general form of a specifier is the index (starts from 0) of the word which you want to set in italic separated by comma."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/worditalic.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/word_italic.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=WRfj_DKrWHY&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=16",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "word italic"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of string specifier."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/word_italic.html\" target=\"_blank\">word italic</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Italic index"
+                    ],
+                    [
+                        "0,1"
+                    ],
+                    [
+                        "0,1,3"
+                    ],
+                    [
+                        "0,1"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Batch append superscript to leaf name texts",
+            "descriptionArr": [
+                "Batch <a target=\"_blank\" href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_superscript_to_leaves_name.html\">appending superscript</a>.",
+                "eg. T means that species is type strain."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/appendSubscriptLeavesname.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/append_superscript_to_leaves_name.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=UBzCDLvHuJ4&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=15",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "append superscript to leaves name"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of superscript string data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_superscript_to_leaves_name.html\" target=\"_blank\">append superscript to leaves name</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Superscript"
+                    ],
+                    [
+                        "T"
+                    ],
+                    [
+                        "T"
+                    ],
+                    [
+                        "T"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Batch append custom string to leaf name texts",
+            "descriptionArr": [
+                "Batch <a target=\"_blank\" href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_leaves_name.html\">appending custom string</a>.",
+                "eg. Appending NCBI accession numbers to the end of leaves name."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/appendLeavesname.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/append_leaves_name.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=Uoqei8rFN_M&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=14",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "append leaves name"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of string data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/append_leaves_name.html\" target=\"_blank\">append leaves name</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Accession number"
+                    ],
+                    [
+                        "(GCF_900101705)"
+                    ],
+                    [
+                        "(GCF_003254355)"
+                    ],
+                    [
+                        "(GCF_003259505)"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Modify leaves names",
+            "descriptionArr": [
+                "This dataset layer is used to change the name of leaf to a new one."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/modifyLeavesName.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/modify_leaves_name.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=lMJtlzMibFg&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=13",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "modify leaves name"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of new names."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/modify_leaves_name.html\" target=\"_blank\">modify leaves name</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "New names"
+                    ],
+                    [
+                        "Belliella baltica DSM 15883"
+                    ],
+                    [
+                        "Cecembia lonarensis LW9"
+                    ],
+                    [
+                        "Indibacter alkaliphilus LW1"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Bubble plot",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/bubblePlot.jpg')",
+            "jsonUrl": "/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/bubblePlot.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "bubble plot"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "At least one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bubble_plot.html\" target=\"_blank\">bubble plot</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Link between two nodes",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/linkCategory.jpg')",
+            "jsonUrl": "/circleTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/circleTree/link_between_two_nodes_category.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "link between two nodes"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "this dataset needs a special data format described in documentation."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/link_between_two_nodes.html\" target=\"_blank\">link between two nodes</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "source",
+                        "target",
+                        "categories"
+                    ],
+                    [
+                        "nodeID-1",
+                        "nodeID-4",
+                        "A"
+                    ],
+                    [
+                        "nodeID-5",
+                        "nodeID-3",
+                        "B"
+                    ],
+                    [
+                        "nodeID-3",
+                        "nodeID-1",
+                        "C"
+                    ]
+                ],
+                "firstColumnName": "Link IDs"
+            }
+        },
+
+        {
+            "title": "Change the color of leaf name according to the given category",
+            "descriptionArr": [
+                "Change the color of leaf name according to the given category."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/colorCategoryLeafName.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/color_categories_of_leaves_name.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=edy5fr0Y4vg&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=17",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "color categories of leaves name"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/modify_leaves_name.html\" target=\"_blank\">color categories of leaves name</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories"
+                    ],
+                    [
+                        "A"
+                    ],
+                    [
+                        "B"
+                    ],
+                    [
+                        "C"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Branch text label",
+            "descriptionArr": [
+                "Add a custom text to branch.",
+                "eg. Label expansion and contraction values on the branch."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/branchTextLabel.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/branch_text_label.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "branch text label"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of string data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/branch_text_label.html\" target=\"_blank\">branch text label</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Expansion"
+                    ],
+                    [
+                        "+477/"
+                    ],
+                    [
+                        "+77/"
+                    ],
+                    [
+                        "+930/"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Change the color of branch according to the given category",
+            "descriptionArr": [
+                "If adjacent leaf nodes share identical category, all children branches of the LAC of these leaf nodes will be colored in one color."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/colorCategoryBranches.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/color_categories_of_branches.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=M9PCs5Gvkpo&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=18",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "color categories of branches"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_categories_of_branches.html\" target=\"_blank\">color categories of branches</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories"
+                    ],
+                    [
+                        "A"
+                    ],
+                    [
+                        "B"
+                    ],
+                    [
+                        "C"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Add a color block in specific color according to the given category",
+            "descriptionArr": [
+                "If adjacent leaf nodes share identical category, there is just one color block will be drawn surrounding all these nodes."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/colorBlock.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/color_block_of_leaves_name.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=_6jtHxrBv2w&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=19",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "color block of leaves name"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/color_block_of_leaves_name.html\" target=\"_blank\">color block of leaves name</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories"
+                    ],
+                    [
+                        "A"
+                    ],
+                    [
+                        "B"
+                    ],
+                    [
+                        "C"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Add specific symbols at branch tips or in aligned layout according to the given category",
+            "descriptionArr": [
+                "The shape of symbol can be changed by using attributes control panel."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/addSymbol.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/add_symbol.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=46gCwauQVSM&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=20",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "add symbol"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "At least one column of category data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/add_symbol.html\" target=\"_blank\">add symbol</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories1",
+                        "Categories2"
+                    ],
+                    [
+                        "A",
+                        "D"
+                    ],
+                    [
+                        "B",
+                        "E"
+                    ],
+                    [
+                        "C",
+                        "F"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Pie chart",
+            "descriptionArr": [
+                "Add pie charts at branch tips or in aligned layout."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/pieChart.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/pie_chart.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=2QCB5NAN4ag&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=21",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "pie chart"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "Multiple columns of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/pie_chart.html\" target=\"_blank\">pie chart</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "component1",
+                        "component2",
+                        "component3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Branch pie chart",
+            "descriptionArr": [
+                "Add pie charts on branch."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/branchPieChart.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/branch_pie_chart.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=cpMpm5Ijlew&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=22",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "branch pie chart"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "Multiple columns of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/branch_pie_chart.html\" target=\"_blank\">branch pie chart</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "component1",
+                        "component2",
+                        "component3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Base bar plot",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/baseBarPlot.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/base_bar_plot.json",
+            "VideoTutorial": "https://www.youtube.com/watch?v=CT3tC15rTsI&list=PLfYQHjd1xleTFMggXlc1mzUPKF8RpAly4&index=23",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "base bar plot"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_bar_plot.html\" target=\"_blank\">base bar plot</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Bar value"
+                    ],
+                    [
+                        "5"
+                    ],
+                    [
+                        "9"
+                    ],
+                    [
+                        "12"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Bar plot with different colors according to the given category",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/barplotCategoey.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/bar_plot_with_category.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "bar plot with category"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data and one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/bar_plot_with_category.html\" target=\"_blank\">bar plot with category</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories",
+                        "Bar value"
+                    ],
+                    [
+                        "A",
+                        "5"
+                    ],
+                    [
+                        "B",
+                        "9"
+                    ],
+                    [
+                        "C",
+                        "12"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Base lollipop plot",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/baseLollipopPlot.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/base_lollipop_plot.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "base lollipop plot"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_lollipop_plot.html\" target=\"_blank\">base lollipop plot</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Value"
+                    ],
+                    [
+                        "5"
+                    ],
+                    [
+                        "9"
+                    ],
+                    [
+                        "12"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Lollipop plot with different colors according to the given category",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/lollipopPlotCategory_c.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/lollipop_plot_with_category.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "lollipop plot with category"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data and one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/lollipop_plot_with_category.html\" target=\"_blank\">lollipop plot with category</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories",
+                        "Value"
+                    ],
+                    [
+                        "A",
+                        "5"
+                    ],
+                    [
+                        "B",
+                        "9"
+                    ],
+                    [
+                        "C",
+                        "12"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Stacked bar plot",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/stackedBarPlot.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/stacked_bar_plot.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "stacked bar plot"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "multiple columns of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/stacked_bar_plot.html\" target=\"_blank\">stacked bar plot</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "component1",
+                        "component2",
+                        "component3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Base box plot",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/baseBoxPlot.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/base_box_plot.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "base box plot"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "multiple columns of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/base_box_plot.html\" target=\"_blank\">base box plot</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Box plot with different colors according to the given category",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/boxPlotCategoey.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/box_plot_with_category.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "box plot with category"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data and multiple columns of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/box_plot_with_category.html\" target=\"_blank\">box plot with category</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories",
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "A",
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "B",
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "C",
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Heatmap",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/heatmap.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/heatmap.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "heatmap"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "at least one column of numerical data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/heatmap.html\" target=\"_blank\">heatmap</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "5",
+                        "13",
+                        "7"
+                    ],
+                    [
+                        "9",
+                        "34",
+                        "14"
+                    ],
+                    [
+                        "12",
+                        "6",
+                        "23"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Binary plot (type 1)",
+            "descriptionArr": [
+                "Hollow circle means 0 (absent) and solid one means 1 (present)."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/binaryPlotType1.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/binary_type_1.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "binary type 1"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "at least one column of numerical data (1 or 0)."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_1.html\" target=\"_blank\">binary type 1</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "0",
+                        "1",
+                        "0"
+                    ],
+                    [
+                        "1",
+                        "0",
+                        "1"
+                    ],
+                    [
+                        "0",
+                        "0",
+                        "1"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Binary plot (type 2)",
+            "descriptionArr": [
+                "Hollow circle means 0 (absent) and solid one means 1 (present)."
+            ],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/binaryPlotType2.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/binary_type_2.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "binary type 2"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "at least one column of numerical data (1 or 0)."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/binary_type_2.html\" target=\"_blank\">binary type 2</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "sample1",
+                        "sample2",
+                        "sample3"
+                    ],
+                    [
+                        "0",
+                        "1",
+                        "0"
+                    ],
+                    [
+                        "1",
+                        "0",
+                        "1"
+                    ],
+                    [
+                        "0",
+                        "0",
+                        "1"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Text label map",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/textLabel.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/text_label.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "text map"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "at least one column of numerical or string data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/text_label.html\" target=\"_blank\">text map</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "ST",
+                        "Source",
+                        "Country"
+                    ],
+                    [
+                        "578",
+                        "River",
+                        "Canada"
+                    ],
+                    [
+                        "675",
+                        "Manure",
+                        "USA"
+                    ],
+                    [
+                        "345",
+                        "Soil",
+                        "China"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        },
+        {
+            "title": "Text label map with different row colors according to the given category",
+            "descriptionArr": [],
+            "imgUrl": "url('https://1996xjm.github.io/chiplot/img/tvbot/indexPage/textLabelCategory.jpg')",
+            "jsonUrl": "/normalTree.html?originalJsonDataUri=/static/xiaochiPlot/gallery/normalTree/text_label_with_category.json",
+            "VideoTutorial": "",
+            "keyRows": [
+                {
+                    "key": "Annotation dataset name",
+                    "value": "text map with category"
+                },
+                {
+                    "key": "Data columns used",
+                    "value": "one column of category data and at least one column of numerical or string data."
+                },
+                {
+                    "key": "Documentation",
+                    "value": "<a href=\"https://1996xjm.github.io/tvbot/tree_annotation/dataset_layer/text_label_with_category.html\" target=\"_blank\">text map with category</a>"
+                }
+            ],
+            "table": {
+                "isShow": true,
+                "tableData": [
+                    [
+                        "Categories",
+                        "ST",
+                        "Source",
+                        "Country"
+                    ],
+                    [
+                        "A",
+                        "578",
+                        "River",
+                        "Canada"
+                    ],
+                    [
+                        "B",
+                        "675",
+                        "Manure",
+                        "USA"
+                    ],
+                    [
+                        "C",
+                        "345",
+                        "Soil",
+                        "China"
+                    ]
+                ],
+                "firstColumnName": "Node IDs"
+            }
+        }
+    ]
+
+
+
+    Vue.createApp({
+        data() {
+            return {
+                "datasetTypeArr":galleryDataArr.slice(0,2),
+                page: 1, // 当前页
+                page_size: 2, // 每页总条数
+
+            };
+        },
+        mounted () {
+            window.addEventListener('scroll', this.lazyLoading) // 滚动到底部，再加载的处理事件
+        },
+        methods: {
+            // 请求接口，获取数据
+            getData () {
+
+                console.log("loading..........")
+                this.datasetTypeArr = galleryDataArr.slice(0,this.page * this.page_size)
+
+            },
+            // 滚动加载
+            lazyLoading () { // 滚动到底部，再加载的处理事件
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                const clientHeight = document.documentElement.clientHeight
+                const scrollHeight = document.documentElement.scrollHeight
+
+                if (scrollTop + clientHeight >= scrollHeight) {
+                    // 滚动到底部，逻辑代码
+                    this.page++
+                    if (this.page  > galleryDataArr.length/this.page_size + 1) return
+                    this.getData()
+                }
+            },
+
+
+        }
+    })
+        .mount(`#gallery-app`)
+    let width = window.innerWidth/2-100
+
+    let svg = d3.select("#svg-cover")
+    .attr("width",width+100)
+    .attr("height","700")
+    let path = d3.path()
+    console.log(width)
+    path.moveTo(0,0)
+    path.lineTo(width,0)
+    path.bezierCurveTo(width,100,width+60,100,width+60,200)
+    path.bezierCurveTo(width+60,300,width-100,300,width-100,400)
+    path.bezierCurveTo(width-100,500,width+50,700,width+50,700)
+    path.lineTo(0,700)
+    path.closePath()
+
+    svg.append("path")
+    .attr("d",path.toString())
+    .attr("fill","url(#arrowGradientFill-PUL1)")
+    // .attr("fill","#42b983")
+    // .attr("fill","#66c2a5")
+
+    let titleG = svg.append("g")
+        .attr("transform","translate(0,160)")
+
+    titleG.append("text")
+    .text("Beautify the")
+    .attr("x",20)
+    .attr("font-size",50)
+    .attr("font-weight","bold")
+    .attr("fill","white")
+
+    titleG.append("text")
+        .text("phylogenetic tree")
+        .attr("x",20)
+        .attr("y",50)
+        .attr("font-size",50)
+        .attr("font-weight","bold")
+        .attr("fill","white")
+
+    // svg.append("text")
+    //     .text("only")
+    //     .attr("x",190)
+    //     .attr("y",260)
+    //     .attr("font-size",80)
+    //     .attr("font-weight","bold")
+    //     .attr("fill","#fc8d62")
+
+    titleG.append("text")
+        .text("using one Excel sheet only")
+        .attr("x",20)
+        .attr("y",100)
+        .attr("font-size",50)
+        .attr("font-weight","bold")
+        .attr("fill","white")
+
+
+</script>
+</html>

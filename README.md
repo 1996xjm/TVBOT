@@ -5,7 +5,7 @@ tvBOT showed significant advantages in tree annotation compared with other tools
 
 # Tree visualization workflow in TVBOT
 
-<p><div style="display:flex;justify-content: center;"><img src="https://1996xjm.github.io/tvbot/img/workflow.jpg" alt="canvasSetting-1" style="width:75%;" /></div></p>
+<center><img src="https://1996xjm.github.io/tvbot/img/workflow.jpg" alt="canvasSetting-1" style="width:75%;" /></center>
 
 - **(1)** Import a tree file in various formats.
 - **(2)** Adjust the tree structure and basic styles.

@@ -42,3 +42,9 @@ tvBOT showed significant advantages in tree annotation compared with other tools
 
 **Reference:** Fig. 4c Cultivation-dependent coverage of OTUs in xylem. ([Zhang, L., Zhang, M., Huang, S. et al., 2022](https://doi.org/10.1038/s41467-022-31113-w))
 
+# Citation
+
+If you use tvBOT in your research, please cite this paper:
+
+> Xie, J., Chen, Y., Cai, G., Cai, R., Hu, Z., & Wang, H. (2023). Tree Visualization By One Table (tvBOT): a web application for visualizing, modifying and annotating phylogenetic trees. Nucleic Acids Research, gkad359. https://doi.org/10.1093/nar/gkad359
+
